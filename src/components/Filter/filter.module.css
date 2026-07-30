@@ -1,0 +1,94 @@
+.centerblock__filter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 51px;
+  color: #ffffff;
+}
+
+.filter__title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  margin-right: 15px;
+  color: #ffffff;
+}
+
+.filter__button {
+  /*composes: btn-text from '/src/UI/Button/button.module.css';*/
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  border: 1px solid #ffffff;
+  border-radius: 60px;
+  padding: 6px 20px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.filter__button:not(:last-child) {
+  margin-right: 10px;
+}
+
+.filter__close {
+  display: none;
+}
+
+.filterWrapper {
+  position: relative;
+}
+
+.filter__list {
+  position: absolute;
+  top: 120%; 
+  left: 70%; 
+  z-index: 10;
+  transform: translateX(-50%);
+  max-width: 248px;
+  height: 305px;
+  background-color: #313131;
+  border-radius: 12px;
+  padding: 34px;
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 10px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(75, 73, 73, 1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: white;
+  }
+}
+
+.filter__authorsList {
+  list-style: none;    
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.filter__itemList {
+font-weight: 400;
+font-size: 20px;
+line-height: 24px;
+letter-spacing: 0%;
+text-decoration: underline;
+text-decoration-style: solid;
+color: #B672FF;
+}
