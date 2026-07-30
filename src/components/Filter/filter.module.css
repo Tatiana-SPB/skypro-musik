@@ -39,6 +39,11 @@
   margin-right: 10px;
 }
 
+.filter__buttonActive {
+  border: 1px solid #9a48f1;
+  color: #b672ff;
+}
+
 .filter__close {
   display: none;
 }
@@ -49,8 +54,8 @@
 
 .filter__list {
   position: absolute;
-  top: 120%; 
-  left: 70%; 
+  top: 120%;
+  left: 70%;
   z-index: 10;
   transform: translateX(-50%);
   max-width: 248px;
@@ -77,18 +82,40 @@
 }
 
 .filter__authorsList {
-  list-style: none;    
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 28px;
 }
 
 .filter__itemList {
-font-weight: 400;
-font-size: 20px;
-line-height: 24px;
-letter-spacing: 0%;
-text-decoration: underline;
-text-decoration-style: solid;
-color: #B672FF;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  text-decoration: none;
+  text-decoration-style: solid;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.filter__itemSelected {
+  color: #b672ff;
+  text-decoration: underline;
+}
+
+.filter__badge {
+  position: absolute;
+  top: -40%;
+  right: -5%;
+  z-index: 10;
+  transform: translateX(-50%);
+  background-color: #ad61ff;
+  border-radius: 50%;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 13px;
+  letter-spacing: 0px;
+  color: #fff;
+  padding: 6px 9px;
 }

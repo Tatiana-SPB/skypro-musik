@@ -5,77 +5,145 @@ import { data } from '@/data';
 import { useState } from 'react';
 
 export default function Filter() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<
+    'authors' | 'year' | 'genre' | null
+  >(null);
+  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [sortOption, setSortOption] = useState<
+    'default' | 'new-to-old' | 'old-to-new'
+  >('default');
 
-  const toggleFilter = () => {
-    setIsFilterOpen((prev) => !prev);
+  const toggleFilter = (filterId: typeof activeFilter) => {
+    setActiveFilter((prev) => (prev === filterId ? null : filterId));
+  };
+
+  const isOpen = (filterId: typeof activeFilter) => activeFilter === filterId;
+
+  const handleAuthorToggle = (author: string) => {
+    setSelectedAuthors((prev) =>
+      prev.includes(author)
+        ? prev.filter((a) => a !== author)
+        : [...prev, author],
+    );
+  };
+
+  const handleGenreToggle = (genre: string) => {
+    setSelectedGenres((prev) =>
+      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre],
+    );
+  };
+
+  const renderBadge = (count: number) => {
+    if (count === 0) return null;
+    return <span className={styles.filter__badge}>{count}</span>;
   };
 
   const PopFilterAuthors = () => {
     const uniqueAuthors = getUniqueValuesByKey(data, 'author') as string[];
 
-    return uniqueAuthors.length > 0 ? (
+    return (
       <ul className={styles.filter__authorsList}>
-        {uniqueAuthors.map((author) => (
-          <li className={styles.filter__itemList} key={author}>
-            {author}
-          </li>
-        ))}
+        {uniqueAuthors.map((author) => {
+          const isSelected = selectedAuthors.includes(author);
+          return (
+            <li
+              key={author}
+              className={`${styles.filter__itemList} ${isSelected ? styles.filter__itemSelected : ''}`}
+              onClick={() => handleAuthorToggle(author)}
+            >
+              {author}
+            </li>
+          );
+        })}
       </ul>
-    ) : (
-      <ul>Список пуст</ul>
     );
   };
 
   const PopFilterGenre = () => {
-    const uniqueGenre = getUniqueValuesByKey(data, 'genre') as string[];
+    const uniqueGenres = getUniqueValuesByKey(data, 'genre') as string[];
 
-    return uniqueGenre.length > 0 ? (
+    return (
       <ul className={styles.filter__authorsList}>
-        {uniqueGenre.map((genre) => (
-          <li className={styles.filter__itemList} key={genre}>
-            {genre}
-          </li>
-        ))}
+        {uniqueGenres.map((genre) => {
+          const isSelected = selectedGenres.includes(genre);
+          return (
+            <li
+              key={genre}
+              className={`${styles.filter__itemList} ${isSelected ? styles.filter__itemSelected : ''}`}
+              onClick={() => handleGenreToggle(genre)}
+            >
+              {genre}
+            </li>
+          );
+        })}
       </ul>
-    ) : (
-      <ul>Список пуст</ul>
     );
   };
 
   return (
     <div className={styles.centerblock__filter}>
       <div className={styles.filter__title}>Искать по:</div>
+
       <div className={styles.filterWrapper}>
-        <div onClick={toggleFilter} className={styles.filter__button}>
+        <div
+          onClick={() => toggleFilter('authors')}
+          className={`${styles.filter__button} ${isOpen('authors') ? styles.filter__buttonActive : ''}`}
+        >
           исполнителю
         </div>
+        {renderBadge(selectedAuthors.length)}
         <div
-          className={`${isFilterOpen ? styles.filter__list : styles.filter__close}`}
+          className={`${isOpen('authors') ? styles.filter__list : styles.filter__close}`}
         >
           {PopFilterAuthors()}
         </div>
       </div>
+
       <div className={styles.filterWrapper}>
-        <div onClick={toggleFilter} className={styles.filter__button}>
+        <div
+          onClick={() => toggleFilter('year')}
+          className={`${styles.filter__button} ${isOpen('year') ? styles.filter__buttonActive : ''}`}
+        >
           году выпуска
         </div>
         <div
-          className={`${isFilterOpen ? styles.filter__list : styles.filter__close}`}
+          className={`${isOpen('year') ? styles.filter__list : styles.filter__close}`}
         >
           <ul className={styles.filter__authorsList}>
-            <li className={styles.filter__itemList}>По умолчанию</li>
-            <li className={styles.filter__itemList}>Сначала новые</li>
-            <li className={styles.filter__itemList}>Сначала старые</li>
+            <li
+              className={`${styles.filter__itemList} ${sortOption === 'default' ? styles.filter__itemSelected : ''}`}
+              onClick={() => setSortOption('default')}
+            >
+              По умолчанию
+            </li>
+            <li
+              className={`${styles.filter__itemList} ${sortOption === 'new-to-old' ? styles.filter__itemSelected : ''}`}
+              onClick={() => setSortOption('new-to-old')}
+            >
+              Сначала новые
+            </li>
+            <li
+              className={`${styles.filter__itemList} ${sortOption === 'old-to-new' ? styles.filter__itemSelected : ''}`}
+              onClick={() => setSortOption('old-to-new')}
+            >
+              Сначала старые
+            </li>
           </ul>
         </div>
       </div>
+
       <div className={styles.filterWrapper}>
-        <div onClick={toggleFilter} className={styles.filter__button}>
+        <div
+          onClick={() => toggleFilter('genre')}
+          className={`${styles.filter__button} ${isOpen('genre') ? styles.filter__buttonActive : ''}`}
+        >
           жанру
         </div>
+        {renderBadge(selectedGenres.length)}
+
         <div
-          className={`${isFilterOpen ? styles.filter__list : styles.filter__close}`}
+          className={`${isOpen('genre') ? styles.filter__list : styles.filter__close}`}
         >
           {PopFilterGenre()}
         </div>
