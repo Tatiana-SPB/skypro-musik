@@ -1,9 +1,9 @@
 import styles from './centerblock.module.css';
 import classNames from 'classnames';
 import Search from '../Search/Search';
-import Playlist from '../Playlist__item/Playlist__item';
 import Filter from '../Filter/Filter';
 import { data } from '@/data';
+import Track from '@/components/Track/Track';
 
 export default function Centerblock() {
   return (
@@ -30,7 +30,7 @@ export default function Centerblock() {
         </div>
         <div className={styles.content__playlist}>
           {data.map((track) => (
-            <Playlist key={track._id} track={track} />
+            <Track key={track._id} track={track} />
           ))}
         </div>
       </div>
