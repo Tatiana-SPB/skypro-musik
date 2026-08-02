@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@sharedTypes/*": ["./src/sharedTypes/*"]
     }
   },
   "include": [
