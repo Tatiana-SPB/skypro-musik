@@ -69,6 +69,27 @@
   stroke: #4e4e4e;
 }
 
+.track__titleSvg_pulse {
+  animation: pulseScale 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseScale {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.25);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  75% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .track__titleLink {
   font-style: normal;

@@ -4,28 +4,55 @@ import { formatTime } from '@/utils/helper';
 import styles from './track.module.css';
 import Link from 'next/link';
 import { TrackType } from '@/sharedTypes/sharedTypes';
-import { useAppDispatch } from '@/store/store';
-import { setCurrentTrack } from '@/store/features/trackSlice';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { setCurrentTrack, setIsPlay } from '@/store/features/trackSlice';
 
 interface TrackTypeProps {
   track: TrackType;
 }
 
 export default function Track({ track }: TrackTypeProps) {
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const dispatch = useAppDispatch();
+  const isPlaying = useAppSelector((state) => state.tracks.isPlay);
 
   const onClickTrack = () => {
+    if (currentTrack && currentTrack._id === track._id) {
+      dispatch(setIsPlay(!isPlaying));
+      return;
+    }
+
     dispatch(setCurrentTrack(track));
+    dispatch(setIsPlay(true));
   };
+
+  const isActive = !!currentTrack && currentTrack._id === track._id;
+  const isPlayingTrack = isActive && isPlaying;
 
   return (
     <div className={styles.playlist__item} onClick={onClickTrack}>
       <div className={styles.playlist__track}>
         <div className={styles.track__title}>
           <div className={styles.track__titleImage}>
-            <svg className={styles.track__titleSvg}>
-              <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
-            </svg>
+            {isActive ? (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className={isPlayingTrack ? styles.track__titleSvg_pulse : ''}
+              >
+                <path
+                  d="M0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8Z"
+                  fill="#B672FF"
+                />
+              </svg>
+            ) : (
+              <svg className={styles.track__titleSvg}>
+                <use href="/img/icon/sprite.svg#icon-note"></use>
+              </svg>
+            )}
           </div>
           <div>
             <Link className={styles.track__titleLink} href="">
@@ -46,7 +73,7 @@ export default function Track({ track }: TrackTypeProps) {
         </div>
         <div>
           <svg className={styles.track__timeSvg}>
-            <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
+            <use href="/img/icon/sprite.svg#icon-like"></use>
           </svg>
           <span className={styles.track__timeText}>
             {formatTime(track.duration_in_seconds)}
