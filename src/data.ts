@@ -7,7 +7,7 @@ export const data: TrackType[] = [
     author: 'Alexander Nakarada',
     release_date: '2005-06-11',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 205,
+    duration_in_seconds: 128,
     album: 'Chase',
     logo: null,
     track_file:
@@ -20,7 +20,7 @@ export const data: TrackType[] = [
     author: 'Frank Schroter',
     release_date: '2019-06-12',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 165,
+    duration_in_seconds: 141,
     album: 'Open Sea epic',
     logo: null,
     track_file:
@@ -33,7 +33,7 @@ export const data: TrackType[] = [
     author: 'Kevin Macleod',
     release_date: '2022-04-16',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 305,
+    duration_in_seconds: 136,
     album: 'Sneaky Snitch',
     logo: null,
     track_file:
@@ -46,7 +46,7 @@ export const data: TrackType[] = [
     author: 'Mixkit',
     release_date: '1972-06-06',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 324,
+    duration_in_seconds: 143,
     album: 'Secret Garden',
     logo: null,
     track_file:
@@ -60,7 +60,7 @@ export const data: TrackType[] = [
     author: '-',
     release_date: '1985-02-02',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 255,
+    duration_in_seconds: 162,
     album: '-',
     logo: null,
     track_file:
@@ -73,7 +73,7 @@ export const data: TrackType[] = [
     author: '-',
     release_date: '1962-01-15',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 200,
+    duration_in_seconds: 170,
     album: 'Epic Heroic Conquest',
     logo: null,
     track_file:
@@ -86,7 +86,7 @@ export const data: TrackType[] = [
     author: '-',
     release_date: '2011-11-02',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 206,
+    duration_in_seconds: 135,
     album: 'The March OF The Final Battle',
     logo: null,
     track_file:
@@ -99,7 +99,7 @@ export const data: TrackType[] = [
     author: '-',
     release_date: '2012-06-01',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 253,
+    duration_in_seconds: 120,
     album: 'True Summer',
     logo: null,
     track_file:
@@ -112,7 +112,7 @@ export const data: TrackType[] = [
     author: 'Waltz Piano',
     release_date: '2003-05-12',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 135,
+    duration_in_seconds: 136,
     album: 'Background Sensible',
     logo: null,
     track_file:
@@ -125,7 +125,7 @@ export const data: TrackType[] = [
     author: 'Winniethemoog',
     release_date: '2004-10-01',
     genre: ['Классическая музыка'],
-    duration_in_seconds: 206,
+    duration_in_seconds: 109,
     album: 'Cinematic',
     logo: null,
     track_file:

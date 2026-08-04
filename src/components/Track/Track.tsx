@@ -5,13 +5,18 @@ import styles from './track.module.css';
 import Link from 'next/link';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { setCurrentTrack, setIsPlay } from '@/store/features/trackSlice';
+import {
+  setCurrentPlaylist,
+  setCurrentTrack,
+  setIsPlay,
+} from '@/store/features/trackSlice';
 
 interface TrackTypeProps {
   track: TrackType;
+  playlist: TrackType[];
 }
 
-export default function Track({ track }: TrackTypeProps) {
+export default function Track({ track, playlist }: TrackTypeProps) {
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const dispatch = useAppDispatch();
   const isPlaying = useAppSelector((state) => state.tracks.isPlay);
@@ -24,6 +29,7 @@ export default function Track({ track }: TrackTypeProps) {
 
     dispatch(setCurrentTrack(track));
     dispatch(setIsPlay(true));
+    dispatch(setCurrentPlaylist(playlist));
   };
 
   const isActive = !!currentTrack && currentTrack._id === track._id;

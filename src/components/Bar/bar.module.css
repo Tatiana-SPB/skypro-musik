@@ -117,7 +117,7 @@
 }
 
 .player__btnRepeatSvg {
-  width: 18px;
+  width: 19px;
   height: 12px;
   fill: transparent;
   stroke: #696969;
@@ -362,4 +362,13 @@
     color: #ad61ff;
     cursor: pointer;
   }
+}
+
+.bar__trackTime_totalTime {
+  text-align: right;
+  color: #696969;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
 }
