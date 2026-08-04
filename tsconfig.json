@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@sharedTypes/*": ["./src/sharedTypes/*"]
+      "@sharedTypes/*": ["./src/sharedTypes/*"],
+      "@Track/*": ["./src/components/Track/*"]
     }
   },
   "include": [

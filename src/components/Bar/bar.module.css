@@ -6,6 +6,10 @@
   background: rgba(28, 28, 28, 0.5);
 }
 
+.audioControls {
+  display: none;
+}
+
 .bar__content {
   display: -webkit-box;
   display: -ms-flexbox;
