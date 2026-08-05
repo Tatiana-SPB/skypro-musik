@@ -1,4 +1,3 @@
-import './page.css';
 import styles from './page.module.css';
 import Bar from '@/components/Bar/Bar';
 import Navigation from '@/components/Navigation/Navigation';
