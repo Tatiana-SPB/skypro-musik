@@ -16,6 +16,7 @@ export default function ProgressBar({
   onChange,
   disabled,
 }: progressBarProp) {
+  console.log(value);
   return (
     <input
       className={styles.styledProgressInput}
