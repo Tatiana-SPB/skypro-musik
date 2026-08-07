@@ -35,7 +35,6 @@ export default function Bar() {
 
   useEffect(() => {
     if (audioRef.current) {
-      console.log(audioRef.current.volume);
       audioRef.current.volume = volume;
     }
   }, [volume]);

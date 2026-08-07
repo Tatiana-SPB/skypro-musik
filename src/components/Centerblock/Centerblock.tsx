@@ -1,4 +1,4 @@
-import styles from './centerblock.module.css';
+/*import styles from './centerblock.module.css';
 import classNames from 'classnames';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
@@ -37,3 +37,4 @@ export default function Centerblock() {
     </div>
   );
 }
+*/
