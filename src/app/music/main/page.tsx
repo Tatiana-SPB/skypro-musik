@@ -1,6 +1,5 @@
 'use client';
 import classNames from 'classnames';
-import { data } from '@/data';
 import Track from '@/components/Track/Track';
 import Search from '@/components/Search/Search';
 import Filter from '@/components/Filter/Filter';

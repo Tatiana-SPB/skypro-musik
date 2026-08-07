@@ -47,8 +47,6 @@ export default function CategoryPage() {
       });
   }, [id]);
 
-  console.log(tracks);
-
   return (
     <>
       <div className={styles.centerblock}>

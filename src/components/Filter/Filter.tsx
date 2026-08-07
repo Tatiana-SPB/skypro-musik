@@ -2,9 +2,16 @@
 import { getUniqueValuesByKey } from '@/utils/helper';
 import styles from './filter.module.css';
 import { data } from '@/data';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { TrackType } from '@/sharedTypes/sharedTypes';
+import { getTracks } from '@/servises/tracks/tracksApi';
+import { AxiosError } from 'axios';
 
 export default function Filter() {
+  const [tracks, setTracks] = useState<TrackType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
   const [activeFilter, setActiveFilter] = useState<
     'authors' | 'year' | 'genre' | null
   >(null);
@@ -13,6 +20,31 @@ export default function Filter() {
   const [sortOption, setSortOption] = useState<
     'default' | 'new-to-old' | 'old-to-new'
   >('default');
+
+  useEffect(() => {
+    getTracks()
+      .then((res) => {
+        setTracks(res);
+      })
+      .catch((error) => {
+        if (error instanceof AxiosError) {
+          if (error.response) {
+            //запрос был сделан, и сервер ответил состоянием не 200, здесь обработать 400-е ошибки
+            setError(error.response.data);
+          } else {
+            if (error.request) {
+              console.log(error.request);
+              setError('Что-то с интернетом');
+              //запрос был сделан, но ответа не получено, здесь обработать ситуацию нет интернета
+            } else {
+              console.log(error.message);
+              //что-то произошло вызвавшее ошибку
+              setError('Неизвестная ошибка');
+            }
+          }
+        }
+      });
+  }, []);
 
   const toggleFilter = (filterId: typeof activeFilter) => {
     setActiveFilter((prev) => (prev === filterId ? null : filterId));
@@ -39,9 +71,10 @@ export default function Filter() {
     return <span className={styles.filter__badge}>{count}</span>;
   };
 
-  const PopFilterAuthors = () => {
-    const uniqueAuthors = getUniqueValuesByKey(data, 'author') as string[];
+  const uniqueAuthors = getUniqueValuesByKey(tracks, 'author') as string[];
+  const uniqueGenres = getUniqueValuesByKey(tracks, 'genre') as string[];
 
+  const PopFilterAuthors = () => {
     return (
       <ul className={styles.filter__authorsList}>
         {uniqueAuthors.map((author) => {
@@ -61,8 +94,6 @@ export default function Filter() {
   };
 
   const PopFilterGenre = () => {
-    const uniqueGenres = getUniqueValuesByKey(data, 'genre') as string[];
-
     return (
       <ul className={styles.filter__authorsList}>
         {uniqueGenres.map((genre) => {
