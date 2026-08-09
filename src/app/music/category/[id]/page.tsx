@@ -52,7 +52,7 @@ export default function CategoryPage() {
       <div className={styles.centerblock}>
         <Search />
         <h2 className={styles.centerblock__h2}>{title}</h2>
-        <Filter />
+        <Filter tracks={tracks} />
         {error}
         <div className={styles.centerblock__content}>
           <div className={styles.content__title}>

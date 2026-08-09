@@ -38,13 +38,11 @@ export default function Home() {
       });
   }, []);
 
-  console.log(tracks);
-
   return (
     <div className={styles.centerblock}>
       <Search />
       <h2 className={styles.centerblock__h2}>Мои треки</h2>
-      <Filter />
+      <Filter tracks={tracks} />
       {error}
       <div className={styles.centerblock__content}>
         <div className={styles.content__title}>
