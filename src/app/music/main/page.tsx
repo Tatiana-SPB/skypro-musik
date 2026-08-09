@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 export default function Home() {
   const [tracks, setTracks] = useState<TrackType[]>([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getTracks()
@@ -35,6 +36,9 @@ export default function Home() {
             }
           }
         }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -43,30 +47,50 @@ export default function Home() {
       <Search />
       <h2 className={styles.centerblock__h2}>Мои треки</h2>
       <Filter tracks={tracks} />
-      {error}
-      <div className={styles.centerblock__content}>
-        <div className={styles.content__title}>
-          <div className={classNames(styles.playlistTitle__col, styles.col01)}>
-            Трек
+      {error ? (
+        <p className={styles.error_message}>{error}</p>
+      ) : loading ? (
+        // Сообщение о загрузке
+        <div className={styles.loading_state}>
+          <p>Загрузка треков...</p>
+          {/* Можно добавить спиннер */}
+          <div className={styles.spinner}></div>
+        </div>
+      ) : tracks.length === 0 ? (
+        <p className={styles.empty_state}>Треков пока нет</p>
+      ) : (
+        <div className={styles.centerblock__content}>
+          <div className={styles.content__title}>
+            <div
+              className={classNames(styles.playlistTitle__col, styles.col01)}
+            >
+              Трек
+            </div>
+            <div
+              className={classNames(styles.playlistTitle__col, styles.col02)}
+            >
+              Исполнитель
+            </div>
+            <div
+              className={classNames(styles.playlistTitle__col, styles.col03)}
+            >
+              Альбом
+            </div>
+            <div
+              className={classNames(styles.playlistTitle__col, styles.col04)}
+            >
+              <svg className={styles.playlistTitle__svg}>
+                <use xlinkHref="/img/icon/sprite.svg#icon-watch"></use>
+              </svg>
+            </div>
           </div>
-          <div className={classNames(styles.playlistTitle__col, styles.col02)}>
-            Исполнитель
-          </div>
-          <div className={classNames(styles.playlistTitle__col, styles.col03)}>
-            Альбом
-          </div>
-          <div className={classNames(styles.playlistTitle__col, styles.col04)}>
-            <svg className={styles.playlistTitle__svg}>
-              <use xlinkHref="/img/icon/sprite.svg#icon-watch"></use>
-            </svg>
+          <div className={styles.content__playlist}>
+            {tracks.map((track) => (
+              <Track key={track._id} track={track} playlist={tracks} />
+            ))}
           </div>
         </div>
-        <div className={styles.content__playlist}>
-          {tracks.map((track) => (
-            <Track key={track._id} track={track} playlist={tracks} />
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
