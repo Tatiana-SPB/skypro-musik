@@ -29,11 +29,12 @@ export default function Bar() {
 
   useEffect(() => {
     setIsLoadedTrack(false);
+    setCurrentTime(0);
+    setTimeDisplay('');
   }, [currentTrack]);
 
   useEffect(() => {
     if (audioRef.current) {
-      console.log(audioRef.current.volume);
       audioRef.current.volume = volume;
     }
   }, [volume]);
@@ -79,13 +80,16 @@ export default function Bar() {
   const onTimeUpdate = () => {
     const audio = audioRef.current;
     if (!audio) return;
+    setCurrentTime(audio.currentTime);
     const timeStr = getTimePanel(audio.currentTime, audio.duration);
     setTimeDisplay(timeStr);
   };
 
   const onLoadedMetadata = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
+    const audio = audioRef.current;
+    if (audio) {
+      setCurrentTime(audio.currentTime);
+      audio.play().catch(() => {});
       dispatch(setIsPlay(true));
       setIsLoadedTrack(true);
     }

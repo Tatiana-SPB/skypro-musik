@@ -1,10 +1,14 @@
 'use client';
 import { getUniqueValuesByKey } from '@/utils/helper';
 import styles from './filter.module.css';
-import { data } from '@/data';
 import { useState } from 'react';
+import { TrackType } from '@/sharedTypes/sharedTypes';
 
-export default function Filter() {
+interface FilterProps {
+  tracks: TrackType[];
+}
+
+export default function Filter({ tracks }: FilterProps) {
   const [activeFilter, setActiveFilter] = useState<
     'authors' | 'year' | 'genre' | null
   >(null);
@@ -39,9 +43,10 @@ export default function Filter() {
     return <span className={styles.filter__badge}>{count}</span>;
   };
 
-  const PopFilterAuthors = () => {
-    const uniqueAuthors = getUniqueValuesByKey(data, 'author') as string[];
+  const uniqueAuthors = getUniqueValuesByKey(tracks, 'author') as string[];
+  const uniqueGenres = getUniqueValuesByKey(tracks, 'genre') as string[];
 
+  const PopFilterAuthors = () => {
     return (
       <ul className={styles.filter__authorsList}>
         {uniqueAuthors.map((author) => {
@@ -61,8 +66,6 @@ export default function Filter() {
   };
 
   const PopFilterGenre = () => {
-    const uniqueGenres = getUniqueValuesByKey(data, 'genre') as string[];
-
     return (
       <ul className={styles.filter__authorsList}>
         {uniqueGenres.map((genre) => {

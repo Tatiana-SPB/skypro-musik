@@ -1,4 +1,4 @@
-/*.centerblock {
+.centerblock {
   width: auto;
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
@@ -101,4 +101,3 @@
   fill: transparent;
   stroke: #696969;
 }
-*/
