@@ -1,16 +1,28 @@
-/*import styles from './centerblock.module.css';
+import styles from './centerblock.module.css';
 import classNames from 'classnames';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
-import { data } from '@/data';
 import Track from '@/components/Track/Track';
+import { TrackType } from '@/sharedTypes/sharedTypes';
 
-export default function Centerblock() {
+type CenterblockProp = {
+  tracks: TrackType[];
+  isLoading: boolean;
+  errorRes: string | null;
+  title: string;
+};
+
+export default function Centerblock({
+  tracks,
+  isLoading,
+  errorRes,
+  title,
+}: CenterblockProp) {
   return (
     <div className={styles.centerblock}>
       <Search />
-      <h2 className={styles.centerblock__h2}>Треки</h2>
-      <Filter />
+      <h2 className={styles.centerblock__h2}>{title}</h2>
+      <Filter tracks={tracks} />
       <div className={styles.centerblock__content}>
         <div className={styles.content__title}>
           <div className={classNames(styles.playlistTitle__col, styles.col01)}>
@@ -29,12 +41,20 @@ export default function Centerblock() {
           </div>
         </div>
         <div className={styles.content__playlist}>
-          {data.map((track) => (
-            <Track key={track._id} track={track} playlist={data} />
-          ))}
+          {errorRes ? (
+            <p className={styles.error_message}>{errorRes}</p>
+          ) : isLoading ? (
+            <div className={styles.loading_state}>
+              <p>Загрузка треков...</p>
+              <div className={styles.spinner}></div>
+            </div>
+          ) : (
+            tracks.map((track) => (
+              <Track key={track._id} track={track} playlist={tracks} />
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 }
-*/
