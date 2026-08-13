@@ -10,7 +10,8 @@ type initialStateType = {
   shuffledPlaylist: TrackType[];
   isLoop: boolean;
   allTracks: TrackType[];
-  fetchError: null | string;
+  favoriteTracks: TrackType[];
+  fetchError: string | null;
   fetchIsLoading: boolean;
 };
 
@@ -23,6 +24,7 @@ const initialState: initialStateType = {
   shuffledPlaylist: [],
   isLoop: false,
   allTracks: [],
+  favoriteTracks: [],
   fetchError: null,
   fetchIsLoading: true,
 };
@@ -79,8 +81,21 @@ const trackSlice = createSlice({
     setAllTracks: (state, action: PayloadAction<TrackType[]>) => {
       state.allTracks = action.payload;
     },
+    setFavoriteTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.favoriteTracks = action.payload;
+    },
+    addLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      if (!state.favoriteTracks.some((t) => t._id === action.payload._id)) {
+        state.favoriteTracks = [...state.favoriteTracks, action.payload];
+      }
+    },
+    removeLikedTracks: (state, action: PayloadAction<string | number>) => {
+      state.favoriteTracks = state.favoriteTracks.filter(
+        (t) => t._id !== action.payload,
+      );
+    },
 
-    setFetchError: (state, action: PayloadAction<string>) => {
+    setFetchError: (state, action: PayloadAction<string | null>) => {
       state.fetchError = action.payload;
     },
     setFetchIsLoading: (state, action: PayloadAction<boolean>) => {
@@ -99,6 +114,9 @@ export const {
   toggleShuffle,
   toggleLoop,
   setAllTracks,
+  setFavoriteTracks,
+  addLikedTracks,
+  removeLikedTracks,
   setFetchError,
   setFetchIsLoading,
 } = trackSlice.actions;

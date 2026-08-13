@@ -1,18 +1,11 @@
 'use client';
 import { useParams } from 'next/navigation';
-import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { AxiosError } from 'axios';
 import { getTracksSort } from '@/servises/tracks/tracksApi';
 import { useAppSelector } from '@/store/store';
 import Centerblock from '@/components/Centerblock/Centerblock';
-
-/*const categories: Record<string, string> = {
-  '2': 'Плейлист дня',
-  '3': '100 танцевальных хитов',
-  '4': 'Инди заряд',
-};*/
 
 export default function CategoryPage() {
   const { fetchIsLoading, allTracks, fetchError } = useAppSelector(
@@ -25,7 +18,6 @@ export default function CategoryPage() {
 
   const params = useParams<{ id: string }>();
   const id = params.id;
-  //const categorieTitle = categories[id] ?? id;
 
   useEffect(() => {
     setIsLoading(true);
