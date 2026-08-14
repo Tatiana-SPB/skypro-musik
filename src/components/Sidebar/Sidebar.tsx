@@ -8,19 +8,24 @@ import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const username = useAppSelector((state) => state.auth.username);
+  const access = useAppSelector((state) => state.auth.access);
+  const router = useRouter();
 
   const logout = () => {
     dispatch(clearUser());
     router.push('/music/main');
   };
 
+  const login = () => {
+    router.push('/auth/signin');
+  };
+
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
         <p className={styles.sidebar__personalName}>{username || 'Гость'}</p>
-        <div className={styles.sidebar__icon} onClick={logout}>
+        <div className={styles.sidebar__icon} onClick={access ? logout : login}>
           <svg>
             <use xlinkHref="/img/icon/sprite.svg#logout"></use>
           </svg>

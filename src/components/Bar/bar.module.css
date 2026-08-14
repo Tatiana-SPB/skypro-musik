@@ -247,6 +247,9 @@
 
 .trackPlay__dislike {
   margin-left: 28.5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .trackPlay__dislikeSvg {

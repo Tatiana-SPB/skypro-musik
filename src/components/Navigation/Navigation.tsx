@@ -5,17 +5,12 @@ import Link from 'next/link';
 import styles from './navigation.module.css';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import {
-  clearUser,
-  setAccessToken,
-  setRefreshToken,
-} from '@/store/features/authSlice';
+import { clearUser } from '@/store/features/authSlice';
 import { useRouter } from 'next/navigation';
 
 export default function Navigation() {
   const dispatch = useAppDispatch();
   const access = useAppSelector((state) => state.auth.access);
-  const refresh = useAppSelector((state) => state.auth.refresh);
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
@@ -30,7 +25,6 @@ export default function Navigation() {
 
   const login = () => {
     router.push('/auth/signin');
-    dispatch(setAccessToken(access), setRefreshToken(refresh));
   };
 
   return (

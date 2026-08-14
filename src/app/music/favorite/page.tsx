@@ -16,18 +16,17 @@ export default function FavoritePage() {
     (state) => state.tracks,
   );
 
-  // Получаем токены. Если refresh нет - пользователь вообще не авторизован
   const authState = useAppSelector((state) => state.auth);
   const access = authState?.access;
   const refresh = authState?.refresh;
+  const isInitialized = authState.isInitialized;
 
   const dispatch = useAppDispatch();
-  const isInitialized = authState.isInitialized;
 
   useEffect(() => {
     if (!isInitialized) return;
     if (!refresh) {
-      dispatch(setFetchError('Пользователь не авторизован'));
+      dispatch(setFavoriteTracks([]));
       dispatch(setFetchIsLoading(false));
       return;
     }
@@ -35,7 +34,6 @@ export default function FavoritePage() {
     const loadFavoriteTracks = async () => {
       dispatch(setFetchIsLoading(true));
       try {
-        // Запрос через механизм реавторизации
         const tracks = await withReauth(
           (token) => getTracksFavoriteRaw(token),
           access,
@@ -43,12 +41,10 @@ export default function FavoritePage() {
           dispatch,
         );
 
-        // Успех: обновляем треки и убираем ошибку
         dispatch(setFavoriteTracks(tracks));
         dispatch(setFetchError(null));
       } catch (e) {
         console.error('Ошибка загрузки избранного:', e);
-        // ВАЖНО: При ошибке очищаем список, иначе будут висеть старые данные
         dispatch(setFavoriteTracks([]));
         dispatch(setFetchError('Не удалось загрузить избранные треки'));
       } finally {
@@ -57,7 +53,7 @@ export default function FavoritePage() {
     };
 
     loadFavoriteTracks();
-  }, [dispatch, access, refresh, isInitialized]); // Зависимость от access нужна, чтобы перезапустить при обновлении токена
+  }, [dispatch, access, refresh, isInitialized]);
 
   return (
     <Centerblock
