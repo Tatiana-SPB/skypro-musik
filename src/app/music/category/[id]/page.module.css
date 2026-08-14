@@ -101,39 +101,3 @@
   fill: transparent;
   stroke: #696969;
 }
-
-.loading_state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  color: #666;
-  font-size: 1.1rem;
-}
-
-.spinner {
-  width: 24px;
-  height: 24px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-top: 10px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.error_message {
-  color: #d32f2f;
-  font-size: 1.1rem;
-  padding: 12px;
-  margin: 16px 0;
-}
