@@ -46,9 +46,7 @@ export const useLikeTrack = (track: TrackType | null): ReturnTypeHook => {
       .then(() => {
         // ✅ ТОЛЬКО ПОСЛЕ УСПЕХА обновляем Redux
         if (isLike) {
-          const idToRemove =
-            typeof track._id === 'string' ? track._id : track._id.toString();
-          dispatch(removeLikedTracks(idToRemove));
+          dispatch(removeLikedTracks(track._id));
         } else {
           dispatch(addLikedTracks(track));
         }

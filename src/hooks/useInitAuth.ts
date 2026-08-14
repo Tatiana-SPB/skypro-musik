@@ -1,5 +1,6 @@
 import {
   setAccessToken,
+  setAuthInitialized,
   setRefreshToken,
   setUsername,
 } from '@/store/features/authSlice';
@@ -17,5 +18,6 @@ export const useInitAuth = () => {
     if (access) dispatch(setAccessToken(access));
     if (refresh) dispatch(setRefreshToken(refresh));
     if (username) dispatch(setUsername(username));
+    dispatch(setAuthInitialized());
   }, [dispatch]);
 };

@@ -22,8 +22,10 @@ export default function FavoritePage() {
   const refresh = authState?.refresh;
 
   const dispatch = useAppDispatch();
+  const isInitialized = authState.isInitialized;
 
   useEffect(() => {
+    if (!isInitialized) return;
     if (!refresh) {
       dispatch(setFetchError('Пользователь не авторизован'));
       dispatch(setFetchIsLoading(false));
@@ -55,7 +57,7 @@ export default function FavoritePage() {
     };
 
     loadFavoriteTracks();
-  }, [dispatch, access, refresh]); // Зависимость от access нужна, чтобы перезапустить при обновлении токена
+  }, [dispatch, access, refresh, isInitialized]); // Зависимость от access нужна, чтобы перезапустить при обновлении токена
 
   return (
     <Centerblock

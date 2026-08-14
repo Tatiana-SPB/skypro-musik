@@ -4,12 +4,14 @@ type initialStateType = {
   username: string;
   access: string;
   refresh: string;
+  isInitialized: boolean;
 };
 
 const initialState: initialStateType = {
   username: '',
   access: '',
   refresh: '',
+  isInitialized: false,
 };
 
 const authSlice = createSlice({
@@ -28,6 +30,9 @@ const authSlice = createSlice({
       state.refresh = action.payload;
       localStorage.setItem('refresh', action.payload);
     },
+    setAuthInitialized: (state) => {
+      state.isInitialized = true;
+    },
     clearUser: (state) => {
       state.username = '';
       state.access = '';
@@ -39,6 +44,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUsername, setAccessToken, setRefreshToken, clearUser } =
-  authSlice.actions;
+export const {
+  setUsername,
+  setAccessToken,
+  setRefreshToken,
+  setAuthInitialized,
+  clearUser,
+} = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

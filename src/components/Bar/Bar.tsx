@@ -14,6 +14,7 @@ import {
 } from '@/store/features/trackSlice';
 import { getTimePanel } from '@/utils/helper';
 import ProgressBar from '../ProgressBar/ProgressBar';
+import { useLikeTrack } from '@/hooks/useLikeTrack';
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
@@ -26,6 +27,11 @@ export default function Bar() {
   const [isTimeDisplay, setTimeDisplay] = useState<string>('');
   const [isLoadedTrack, setIsLoadedTrack] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const {
+    isLoading: isLikeLoading,
+    toggleLike,
+    isLike,
+  } = useLikeTrack(currentTrack);
 
   useEffect(() => {
     setIsLoadedTrack(false);
@@ -115,6 +121,10 @@ export default function Bar() {
 
   const onNextTrack = () => {
     dispatch(setNextTrack());
+  };
+
+  const onLikeChange = (nextIsLike: boolean) => {
+    if (!isLikeLoading && isLike !== nextIsLike) toggleLike();
   };
 
   const onToggleShuffle = () => {
@@ -269,6 +279,7 @@ export default function Bar() {
                     styles.player__btnShuffle,
                     styles.btnIcon,
                   )}
+                  onClick={() => onLikeChange(true)}
                 >
                   <svg className={styles.trackPlay__likeSvg}>
                     <use href="/img/icon/sprite.svg#icon-like"></use>
@@ -279,6 +290,7 @@ export default function Bar() {
                     styles.trackPlay__dislike,
                     styles.btnIcon,
                   )}
+                  onClick={() => onLikeChange(false)}
                 >
                   <svg className={styles.trackPlay__dislikeSvg}>
                     <use href="/img/icon/sprite.svg#icon-dislike"></use>
