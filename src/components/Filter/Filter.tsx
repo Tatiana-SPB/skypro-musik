@@ -3,154 +3,89 @@ import { getUniqueValuesByKey } from '@/utils/helper';
 import styles from './filter.module.css';
 import { useState } from 'react';
 import { TrackType } from '@/sharedTypes/sharedTypes';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import {
+  setFilterAuthors,
+  setFilterGenres,
+  setFilterYears,
+} from '@/store/features/trackSlice';
+import FilterItem from '../FilterItem/FilterItem';
 
-interface FilterProps {
+interface FilterProp {
   tracks: TrackType[];
 }
 
-export default function Filter({ tracks }: FilterProps) {
-  const [activeFilter, setActiveFilter] = useState<
-    'authors' | 'year' | 'genre' | null
-  >(null);
-  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [sortOption, setSortOption] = useState<
-    'default' | 'new-to-old' | 'old-to-new'
-  >('default');
+type YearOption = 'По умолчанию' | 'Сначала новые' | 'Сначала старые';
 
-  const toggleFilter = (filterId: typeof activeFilter) => {
-    setActiveFilter((prev) => (prev === filterId ? null : filterId));
-  };
+export default function Filter({ tracks }: FilterProp) {
+  const dispatch = useAppDispatch();
+  const { authors, genres, years } = useAppSelector(
+    (state) => state.tracks.filters,
+  );
 
-  const isOpen = (filterId: typeof activeFilter) => activeFilter === filterId;
+  const [activeFilter, setActiveFilter] = useState<null | string>(null);
 
-  const handleAuthorToggle = (author: string) => {
-    setSelectedAuthors((prev) =>
-      prev.includes(author)
-        ? prev.filter((a) => a !== author)
-        : [...prev, author],
-    );
-  };
-
-  const handleGenreToggle = (genre: string) => {
-    setSelectedGenres((prev) =>
-      prev.includes(genre) ? prev.filter((g) => g !== genre) : [...prev, genre],
-    );
-  };
-
-  const renderBadge = (count: number) => {
-    if (count === 0) return null;
-    return <span className={styles.filter__badge}>{count}</span>;
+  const changeActiveFilter = (nameFilter: string) => {
+    if (activeFilter === nameFilter) return setActiveFilter(null);
+    setActiveFilter(nameFilter);
   };
 
   const uniqueAuthors = getUniqueValuesByKey(tracks, 'author') as string[];
   const uniqueGenres = getUniqueValuesByKey(tracks, 'genre') as string[];
+  const yearsList: YearOption[] = [
+    'По умолчанию',
+    'Сначала новые',
+    'Сначала старые',
+  ];
 
-  const PopFilterAuthors = () => {
-    return (
-      <ul className={styles.filter__authorsList}>
-        {uniqueAuthors.map((author) => {
-          const isSelected = selectedAuthors.includes(author);
-          return (
-            <li
-              key={author}
-              className={`${styles.filter__itemList} ${isSelected ? styles.filter__itemSelected : ''}`}
-              onClick={() => handleAuthorToggle(author)}
-            >
-              {author}
-            </li>
-          );
-        })}
-      </ul>
-    );
+  const onSelectAuthor = (author: string) => {
+    dispatch(setFilterAuthors(author));
   };
 
-  const PopFilterGenre = () => {
-    return (
-      <ul className={styles.filter__authorsList}>
-        {uniqueGenres.map((genre) => {
-          const isSelected = selectedGenres.includes(genre);
-          return (
-            <li
-              key={genre}
-              className={`${styles.filter__itemList} ${isSelected ? styles.filter__itemSelected : ''}`}
-              onClick={() => handleGenreToggle(genre)}
-            >
-              {genre}
-            </li>
-          );
-        })}
-      </ul>
-    );
+  const onSelectGenres = (genre: string) => {
+    dispatch(setFilterGenres(genre));
+  };
+
+  const onSelectYear = (year: YearOption) => {
+    dispatch(setFilterYears(year));
   };
 
   return (
     <div className={styles.centerblock__filter}>
       <div className={styles.filter__title}>Искать по:</div>
 
-      <div className={styles.filterWrapper}>
-        <div
-          onClick={() => toggleFilter('authors')}
-          className={`${styles.filter__button} ${isOpen('authors') ? styles.filter__buttonActive : ''}`}
-        >
-          исполнителю
-        </div>
-        {renderBadge(selectedAuthors.length)}
-        <div
-          className={`${isOpen('authors') ? styles.filter__list : styles.filter__close}`}
-        >
-          {PopFilterAuthors()}
-        </div>
-      </div>
+      <FilterItem
+        activeFilter={activeFilter}
+        changeActiveFilter={changeActiveFilter}
+        nameFilter={'author'}
+        list={uniqueAuthors}
+        titleFilter={'исполнителю'}
+        onSelect={onSelectAuthor}
+        selectedItems={authors}
+        selectedCount={authors.length}
+      />
 
-      <div className={styles.filterWrapper}>
-        <div
-          onClick={() => toggleFilter('year')}
-          className={`${styles.filter__button} ${isOpen('year') ? styles.filter__buttonActive : ''}`}
-        >
-          году выпуска
-        </div>
-        <div
-          className={`${isOpen('year') ? styles.filter__list : styles.filter__close}`}
-        >
-          <ul className={styles.filter__authorsList}>
-            <li
-              className={`${styles.filter__itemList} ${sortOption === 'default' ? styles.filter__itemSelected : ''}`}
-              onClick={() => setSortOption('default')}
-            >
-              По умолчанию
-            </li>
-            <li
-              className={`${styles.filter__itemList} ${sortOption === 'new-to-old' ? styles.filter__itemSelected : ''}`}
-              onClick={() => setSortOption('new-to-old')}
-            >
-              Сначала новые
-            </li>
-            <li
-              className={`${styles.filter__itemList} ${sortOption === 'old-to-new' ? styles.filter__itemSelected : ''}`}
-              onClick={() => setSortOption('old-to-new')}
-            >
-              Сначала старые
-            </li>
-          </ul>
-        </div>
-      </div>
+      <FilterItem
+        activeFilter={activeFilter}
+        changeActiveFilter={changeActiveFilter}
+        nameFilter={'year'}
+        list={yearsList}
+        titleFilter={'году выпуска'}
+        onSelect={(val) => onSelectYear(val as YearOption)}
+        selectedItems={[years]}
+        selectedCount={0}
+      />
 
-      <div className={styles.filterWrapper}>
-        <div
-          onClick={() => toggleFilter('genre')}
-          className={`${styles.filter__button} ${isOpen('genre') ? styles.filter__buttonActive : ''}`}
-        >
-          жанру
-        </div>
-        {renderBadge(selectedGenres.length)}
-
-        <div
-          className={`${isOpen('genre') ? styles.filter__list : styles.filter__close}`}
-        >
-          {PopFilterGenre()}
-        </div>
-      </div>
+      <FilterItem
+        activeFilter={activeFilter}
+        changeActiveFilter={changeActiveFilter}
+        nameFilter={'genre'}
+        list={uniqueGenres}
+        titleFilter={'жанру'}
+        onSelect={onSelectGenres}
+        selectedItems={genres}
+        selectedCount={genres.length}
+      />
     </div>
   );
 }

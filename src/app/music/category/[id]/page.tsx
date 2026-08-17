@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import { getTracksSort } from '@/servises/tracks/tracksApi';
 import { useAppSelector } from '@/store/store';
 import Centerblock from '@/components/Centerblock/Centerblock';
+import { setPagePlaylist } from '@/store/features/trackSlice';
 
 export default function CategoryPage() {
   const { fetchIsLoading, allTracks, fetchError } = useAppSelector(
@@ -62,6 +63,7 @@ export default function CategoryPage() {
         errorRes={errorRes || fetchError}
         isLoading={isLoading}
         title={title}
+        pagePlaylist={allTracks}
       />
     </>
   );

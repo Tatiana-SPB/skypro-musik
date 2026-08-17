@@ -1,15 +1,20 @@
+'use client';
 import styles from './centerblock.module.css';
 import classNames from 'classnames';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
 import Track from '@/components/Track/Track';
 import { TrackType } from '@/sharedTypes/sharedTypes';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useEffect } from 'react';
+import { setPagePlaylist } from '@/store/features/trackSlice';
 
 type CenterblockProp = {
   tracks: TrackType[];
   isLoading: boolean;
   errorRes: string | null;
   title: string;
+  pagePlaylist: TrackType[];
 };
 
 export default function Centerblock({
@@ -17,12 +22,22 @@ export default function Centerblock({
   isLoading,
   errorRes,
   title,
+  pagePlaylist,
 }: CenterblockProp) {
+  const dispatch = useAppDispatch();
+  const filteredTracks = useAppSelector((state) => state.tracks.filteredTracks);
+
+  useEffect(() => {
+    if (!isLoading && !errorRes) {
+      dispatch(setPagePlaylist(pagePlaylist));
+    }
+  }, [isLoading, errorRes, pagePlaylist]);
+
   return (
     <div className={styles.centerblock}>
       <Search />
       <h2 className={styles.centerblock__h2}>{title}</h2>
-      <Filter tracks={tracks} />
+      <Filter tracks={pagePlaylist} />
       <div className={styles.centerblock__content}>
         <div className={styles.content__title}>
           <div className={classNames(styles.playlistTitle__col, styles.col01)}>
@@ -49,8 +64,8 @@ export default function Centerblock({
               <div className={styles.spinner}></div>
             </div>
           ) : (
-            tracks.map((track) => (
-              <Track key={track._id} track={track} playlist={tracks} />
+            filteredTracks.map((track) => (
+              <Track key={track._id} track={track} playlist={filteredTracks} />
             ))
           )}
         </div>
