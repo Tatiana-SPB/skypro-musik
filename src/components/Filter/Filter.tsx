@@ -19,9 +19,13 @@ type YearOption = 'По умолчанию' | 'Сначала новые' | 'С�
 
 export default function Filter({ tracks }: FilterProp) {
   const dispatch = useAppDispatch();
-  const { authors, genres, years } = useAppSelector(
+  let { authors, genres, years } = useAppSelector(
     (state) => state.tracks.filters,
   );
+
+  if (!tracks) {
+    ((genres = []), (authors = []));
+  }
 
   const [activeFilter, setActiveFilter] = useState<null | string>(null);
 

@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { AxiosError } from 'axios';
-import { getTracksSort } from '@/servises/tracks/tracksApi';
+import { getTracksSort } from '@/services/tracks/tracksApi';
 import { useAppSelector } from '@/store/store';
 import Centerblock from '@/components/Centerblock/Centerblock';
 import { setPagePlaylist } from '@/store/features/trackSlice';

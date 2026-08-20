@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL } from '@/servises/constants';
+import { BASE_URL } from '@/services/constants';
 
 type authUserProps = {
   email: string;

@@ -1,5 +1,5 @@
 'use client';
-import { getTracks } from '@/servises/tracks/tracksApi';
+import { getTracks } from '@/services/tracks/tracksApi';
 import {
   setAllTracks,
   setFetchError,

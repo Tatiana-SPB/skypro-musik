@@ -1,4 +1,4 @@
-import { addLike, removeLike } from '@/servises/tracks/tracksApi';
+import { addLike, removeLike } from '@/services/tracks/tracksApi';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { addLikedTracks, removeLikedTracks } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';

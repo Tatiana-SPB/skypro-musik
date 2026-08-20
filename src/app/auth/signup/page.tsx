@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import styles from './signup.module.css';
 import { useState } from 'react';
-import { regUser } from '@/servises/auth/authApi';
+import { regUser } from '@/services/auth/authApi';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 

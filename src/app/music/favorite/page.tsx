@@ -1,7 +1,7 @@
 'use client';
 
 import Centerblock from '@/components/Centerblock/Centerblock';
-import { getTracksFavoriteRaw } from '@/servises/tracks/tracksApi';
+import { getTracksFavoriteRaw } from '@/services/tracks/tracksApi';
 import {
   setFavoriteTracks,
   setFetchError,

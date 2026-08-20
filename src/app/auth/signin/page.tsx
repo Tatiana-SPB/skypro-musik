@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './signin.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
-import { authUser, getTokens } from '@/servises/auth/authApi';
+import { authUser, getTokens } from '@/services/auth/authApi';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';

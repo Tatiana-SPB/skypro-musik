@@ -19,9 +19,13 @@ export function getTimePanel(
 }
 
 export function getUniqueValuesByKey(
-  arr: TrackType[],
+  arr: TrackType[] | undefined,
   key: keyof TrackType,
 ): string[] {
+  if (!arr || arr.length === 0) {
+    return [];
+  }
+
   const uniqueValues = new Set<string>();
 
   arr.forEach((item) => {
