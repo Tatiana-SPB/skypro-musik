@@ -7,22 +7,38 @@ export function formatTime(time: number) {
   return `${minutes}:${outputSeconds}`;
 }
 
+export function getTimePanel(
+  currentTime: number,
+  totalTime: number | undefined,
+): string {
+  if (!totalTime || totalTime <= 0) {
+    return formatTime(currentTime);
+  }
+
+  return `${formatTime(currentTime)}/${formatTime(totalTime)}`;
+}
+
 export function getUniqueValuesByKey(
-  arr: TrackType[],
+  arr: TrackType[] | undefined,
   key: keyof TrackType,
 ): string[] {
+  if (!arr || arr.length === 0) {
+    return [];
+  }
+
   const uniqueValues = new Set<string>();
+
   arr.forEach((item) => {
     const value = item[key];
 
     if (Array.isArray(value)) {
       value.forEach((v) => {
-        if (v) {
-          uniqueValues.add(v);
+        if (v != null) {
+          uniqueValues.add(String(v));
         }
       });
-    } else if (typeof value === 'string') {
-      uniqueValues.add(value);
+    } else if (value != null) {
+      uniqueValues.add(String(value));
     }
   });
 

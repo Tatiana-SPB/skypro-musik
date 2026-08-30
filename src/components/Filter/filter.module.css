@@ -1,121 +1,129 @@
 .centerblock__filter {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
+  gap: 12px; /* Расстояние между кнопками фильтров */
   margin-bottom: 51px;
   color: #ffffff;
 }
 
 .filter__title {
-  font-style: normal;
-  font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  margin-right: 15px;
   color: #ffffff;
+  white-space: nowrap;
 }
 
+/* Обертка для изоляции позиционирования списка */
+.filterWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Кнопка-триггер */
 .filter__button {
-  /*composes: btn-text from '/src/UI/Button/button.module.css';*/
-  font-style: normal;
-  font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   border: 1px solid #ffffff;
   border-radius: 60px;
   padding: 6px 20px;
   color: #ffffff;
+  background: transparent;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.filter__button:not(:last-child) {
-  margin-right: 10px;
-}
-
-.filter__buttonActive {
-  border: 1px solid #9a48f1;
+.filter__button:hover {
+  border-color: #9a48f1;
   color: #b672ff;
 }
 
-.filter__close {
-  display: none;
+/* Активное состояние кнопки */
+.filter__buttonActive {
+  border-color: #9a48f1 !important;
+  color: #b672ff !important;
 }
 
-.filterWrapper {
-  position: relative;
+/* Бейдж (значок количества) */
+.filter__badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 10;
+  background-color: #ad61ff;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: 600;
 }
 
+/* Выпадающий список */
 .filter__list {
   position: absolute;
-  top: 120%;
-  left: 70%;
-  z-index: 10;
-  transform: translateX(-50%);
+  top: 100%; /* Сразу под кнопкой */
+  left: 50%; /* Центрируем горизонтально */
+  transform: translateX(-50%); /* Точная центровка */
+  z-index: 100;
   max-width: 248px;
   height: 305px;
   background-color: #313131;
   border-radius: 12px;
   padding: 34px;
-  display: flex;
   overflow-y: auto;
-  flex-direction: column;
-  gap: 10px;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: rgba(75, 73, 73, 1);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: white;
-  }
-}
-
-.filter__authorsList {
-  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid #4a4a4a;
+  
+  /* Скроллбар */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(75, 73, 73, 1);
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 3px;
+  }
 }
 
+/* Скрытый список */
+.filter__close {
+  display: none !important; /* Важно для перекрытия */
+}
+
+/* Список внутри выпадашки */
+.filter__authorsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Элементы списка */
 .filter__itemList {
-  font-weight: 400;
   font-size: 20px;
   line-height: 24px;
-  letter-spacing: 0%;
-  text-decoration: none;
-  text-decoration-style: solid;
   color: #ffffff;
   cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
 }
 
+.filter__itemList:hover {
+  color: #b672ff;
+}
+
+/* Подсвеченный элемент */
 .filter__itemSelected {
   color: #b672ff;
   text-decoration: underline;
-}
-
-.filter__badge {
-  position: absolute;
-  top: -40%;
-  right: -5%;
-  z-index: 10;
-  transform: translateX(-50%);
-  background-color: #ad61ff;
-  border-radius: 50%;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 13px;
-  letter-spacing: 0px;
-  color: #fff;
-  padding: 6px 9px;
+  text-underline-offset: 4px;
 }
