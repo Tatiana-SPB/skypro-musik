@@ -159,6 +159,13 @@ export const trackSlice = createSlice({
       const filtered = applyFilters(state);
       state.filteredTracks = sortByYear(filtered, action.payload);
     },
+    resetFilters: (state) => {
+      state.filters = {
+        authors: [],
+        genres: [],
+        years: 'По умолчанию',
+      };
+    },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
       const filtered = applyFilters(state);
@@ -192,6 +199,7 @@ export const {
   setFilterAuthors,
   setFilterGenres,
   setFilterYears,
+  resetFilters,
   setSearch,
   clearSearch,
 } = trackSlice.actions;

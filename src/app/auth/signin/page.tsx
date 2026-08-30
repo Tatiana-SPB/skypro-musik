@@ -45,7 +45,6 @@ export default function Signin() {
         return getTokens({ email, password });
       })
       .then((res) => {
-        console.log(res);
         dispatch(setAccessToken(res.access));
         dispatch(setRefreshToken(res.refresh));
         router.push('/music/main');
@@ -53,16 +52,11 @@ export default function Signin() {
       .catch((error) => {
         if (error instanceof AxiosError) {
           if (error.response) {
-            //запрос был сделан, и сервер ответил состоянием не 200, здесь обработать 400-е ошибки
             setErrorMessage(error.response.data.message);
           } else {
             if (error.request) {
-              console.log(error.request);
               setErrorMessage('Что-то с интернетом');
-              //запрос был сделан, но ответа не получено, здесь обработать ситуацию нет интернета
             } else {
-              console.log(error.message);
-              //что-то произошло вызвавшее ошибку
               setErrorMessage('Неизвестная ошибка');
             }
           }

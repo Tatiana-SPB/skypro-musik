@@ -13,12 +13,10 @@ export interface ReturnTypeHook {
 }
 
 export const useLikeTrack = (track: TrackType | null): ReturnTypeHook => {
-  // favoriteTracks берем из стора, но помним, что он может быть пустым, если загрузка не прошла
   const { favoriteTracks } = useAppSelector((state) => state.tracks);
   const { access, refresh } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
-  // Локальное состояние "нравится ли" считаем на основе текущего массива в сторе
   const isLike = !!track && favoriteTracks.some((t) => t._id === track._id);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +30,6 @@ export const useLikeTrack = (track: TrackType | null): ReturnTypeHook => {
     }
 
     const actionApi = isLike ? removeLike : addLike;
-    // Мы НЕ делаем dispatch сразу! Ждем ответа сервера
 
     setIsLoading(true);
     setErrorMsg(null);
@@ -44,7 +41,6 @@ export const useLikeTrack = (track: TrackType | null): ReturnTypeHook => {
       dispatch,
     )
       .then(() => {
-        // ✅ ТОЛЬКО ПОСЛЕ УСПЕХА обновляем Redux
         if (isLike) {
           dispatch(removeLikedTracks(track._id));
         } else {
@@ -54,7 +50,6 @@ export const useLikeTrack = (track: TrackType | null): ReturnTypeHook => {
       .catch((error) => {
         setErrorMsg('Не удалось изменить статус лайка');
         console.error(error);
-        // Здесь НЕ обновляем Redux, оставляем как было
       })
       .finally(() => {
         setIsLoading(false);

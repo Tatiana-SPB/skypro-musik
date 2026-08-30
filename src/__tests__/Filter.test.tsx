@@ -7,7 +7,6 @@ import { trackSliceReducer } from '@/store/features/trackSlice';
 import { data } from '@/data';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 
-// Создаем мок-стор
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {

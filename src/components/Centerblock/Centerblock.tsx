@@ -25,19 +25,18 @@ export default function Centerblock({
   pagePlaylist,
 }: CenterblockProp) {
   const dispatch = useAppDispatch();
-  const filteredTracks = useAppSelector((state) => state.tracks.filteredTracks);
 
   useEffect(() => {
     if (!isLoading && !errorRes) {
       dispatch(setPagePlaylist(pagePlaylist));
     }
-  }, [isLoading, errorRes, pagePlaylist]);
+  }, []);
 
   return (
     <div className={styles.centerblock}>
       <Search />
       <h2 className={styles.centerblock__h2}>{title}</h2>
-      <Filter tracks={pagePlaylist} />
+      <Filter tracks={tracks} />
       <div className={styles.centerblock__content}>
         <div className={styles.content__title}>
           <div className={classNames(styles.playlistTitle__col, styles.col01)}>
@@ -64,8 +63,8 @@ export default function Centerblock({
               <div className={styles.spinner}></div>
             </div>
           ) : (
-            filteredTracks.map((track) => (
-              <Track key={track._id} track={track} playlist={filteredTracks} />
+            tracks.map((track) => (
+              <Track key={track._id} track={track} playlist={tracks} />
             ))
           )}
         </div>

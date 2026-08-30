@@ -5,7 +5,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import Search from '../components/Search/Search';
 import { trackSliceReducer } from '@/store/features/trackSlice';
 
-// Создаем мок-стор
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {

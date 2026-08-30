@@ -300,6 +300,9 @@ export default function Bar() {
             </div>
           </div>
           <div className={styles.bar__volumeBlock}>
+            <span className={styles.bar__trackTime_totalTime}>
+              {isTimeDisplay}
+            </span>
             <div className={styles.volume__content}>
               <div className={styles.volume__image}>
                 <svg className={styles.volume__svg}>
@@ -319,9 +322,6 @@ export default function Bar() {
               </div>
             </div>
           </div>
-          <span className={styles.bar__trackTime_totalTime}>
-            {isTimeDisplay}
-          </span>
         </div>
       </div>
     </div>

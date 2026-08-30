@@ -1,27 +1,25 @@
 'use client';
-
 import Centerblock from '@/components/Centerblock/Centerblock';
 import { getTracksFavoriteRaw } from '@/services/tracks/tracksApi';
 import {
+  resetFilters,
   setFavoriteTracks,
   setFetchError,
   setFetchIsLoading,
+  setPagePlaylist,
 } from '@/store/features/trackSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { withReauth } from '@/utils/withReauth';
 import { useEffect } from 'react';
 
 export default function FavoritePage() {
-  const { fetchError, fetchIsLoading, favoriteTracks } = useAppSelector(
-    (state) => state.tracks,
-  );
-
+  const dispatch = useAppDispatch();
+  const { fetchError, fetchIsLoading, allTracks, favoriteTracks } =
+    useAppSelector((state) => state.tracks);
   const authState = useAppSelector((state) => state.auth);
   const access = authState?.access;
   const refresh = authState?.refresh;
   const isInitialized = authState.isInitialized;
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!isInitialized) return;
@@ -41,7 +39,7 @@ export default function FavoritePage() {
           dispatch,
         );
 
-        dispatch(setFavoriteTracks(tracks));
+        dispatch(setPagePlaylist(tracks));
         dispatch(setFetchError(null));
       } catch (e) {
         console.error('Ошибка загрузки избранного:', e);
@@ -55,12 +53,19 @@ export default function FavoritePage() {
     loadFavoriteTracks();
   }, [dispatch, access, refresh, isInitialized]);
 
+  useEffect(() => {
+    dispatch(resetFilters());
+  }, [dispatch]);
+
+  const displayTracks = useAppSelector((state) => state.tracks.filteredTracks);
+
   return (
     <Centerblock
-      tracks={favoriteTracks}
+      tracks={displayTracks}
       errorRes={fetchError}
       isLoading={fetchIsLoading}
       title={'Мои треки'}
+      pagePlaylist={allTracks}
     />
   );
 }

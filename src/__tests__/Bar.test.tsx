@@ -59,6 +59,8 @@ describe('Bar Component', () => {
     );
 
     expect(screen.getByText(mockTrack.author)).toBeInTheDocument();
-    expect(screen.getByText(mockTrack.name)).toBeInTheDocument();
+    expect(
+      screen.getByText(mockTrack.name, { selector: 'a.track__titleLink' }),
+    ).toBeInTheDocument();
   });
 });

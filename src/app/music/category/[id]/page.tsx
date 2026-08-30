@@ -1,24 +1,27 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { TrackType } from '@/sharedTypes/sharedTypes';
 import { AxiosError } from 'axios';
 import { getTracksSort } from '@/services/tracks/tracksApi';
-import { useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import Centerblock from '@/components/Centerblock/Centerblock';
-import { setPagePlaylist } from '@/store/features/trackSlice';
+import { resetFilters, setPagePlaylist } from '@/store/features/trackSlice';
 
 export default function CategoryPage() {
+  const dispatch = useAppDispatch();
   const { fetchIsLoading, allTracks, fetchError } = useAppSelector(
     (state) => state.tracks,
   );
   const [title, setTitle] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [errorRes, setErrorRes] = useState<string | null>(null);
-  const [tracks, setTracksSort] = useState<TrackType[]>([]);
 
   const params = useParams<{ id: string }>();
   const id = params.id;
+
+  useEffect(() => {
+    dispatch(resetFilters());
+  }, [id, dispatch]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -30,21 +33,16 @@ export default function CategoryPage() {
           const resultTracks = allTracks.filter((el) =>
             tracksIds.includes(el._id),
           );
-          setTracksSort(resultTracks);
+          dispatch(setPagePlaylist(resultTracks));
         })
         .catch((error) => {
           if (error instanceof AxiosError) {
             if (error.response) {
-              //запрос был сделан, и сервер ответил состоянием не 200, здесь обработать 400-е ошибки
               setErrorRes(error.response.data);
             } else {
               if (error.request) {
-                console.log(error.request);
                 setErrorRes('Что-то с интернетом');
-                //запрос был сделан, но ответа не получено, здесь обработать ситуацию нет интернета
               } else {
-                console.log(error.message);
-                //что-то произошло вызвавшее ошибку
                 setErrorRes('Неизвестная ошибка');
               }
             }
@@ -54,12 +52,14 @@ export default function CategoryPage() {
           setIsLoading(false);
         });
     }
-  }, [id, allTracks, fetchIsLoading]);
+  }, [id, allTracks, fetchIsLoading, dispatch]);
+
+  const displayTracks = useAppSelector((state) => state.tracks.filteredTracks);
 
   return (
     <>
       <Centerblock
-        tracks={tracks}
+        tracks={displayTracks}
         errorRes={errorRes || fetchError}
         isLoading={isLoading}
         title={title}

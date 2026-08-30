@@ -57,7 +57,10 @@ export default function FilterItem({
                   styles.filter__itemList,
                   isSelected && styles.filter__itemSelected,
                 )}
-                onClick={() => onSelect(item)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelect(item);
+                }}
                 title={isSelected ? 'Выбрано' : undefined}
                 style={{ cursor: 'pointer' }}
               >
